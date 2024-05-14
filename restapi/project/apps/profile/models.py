@@ -3,7 +3,7 @@ from django.contrib.auth.base_user import AbstractBaseUser
 from django.db import models
 from logging import getLogger
 
-from project.apps.profile.manager import UserManager
+from project.apps.profile.v1.validators import phone_regex_validator
 
 logger = getLogger(__name__)
 
@@ -11,9 +11,6 @@ logger = getLogger(__name__)
 class User(AbstractBaseUser):
     email = models.EmailField(_('email address'), unique=True, blank=False, null=False)
     phone_number = models.CharField(validators=[phone_regex_validator], unique=True, blank=True, null=True, max_length=11)
-    profile_image = models.ImageField(upload_to='profile_image/', blank=True, null=True)
-
-    REQUIRED_FIELDS = ["email"]
 
     def save(self, *args, **kwargs):
         if not self.phone_number:
@@ -26,5 +23,3 @@ class User(AbstractBaseUser):
 
     USERNAME_FIELD = 'phone'
     REQUIRED_FIELDS = []
-
-    objects = UserManager()

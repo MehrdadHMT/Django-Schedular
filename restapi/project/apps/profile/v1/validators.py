@@ -4,7 +4,7 @@ from django.core.exceptions import ValidationError
 from django.core.validators import RegexValidator
 
 from project.settings import VALUES
-from project.apps.administration.messages import get_message
+from project.messages import get_message
 
 
 phone_regex_validator = RegexValidator(regex=r"^(?:0|98|\+98|\+980|0098|098|00980)?(9\d{9})$",
