@@ -1,0 +1,49 @@
+services:
+    redis:
+        image: hub.hamdocker.ir/library/redis:alpine
+        networks:
+            - test-network
+
+    database:
+        image: hub.hamdocker.ir/library/postgres:13.2
+        command: postgres -c 'max_connections=10000'
+        volumes:
+            - pgdata_scheduler:/var/lib/postgresql/data/
+        environment:
+            - POSTGRES_DB=django
+            - POSTGRES_USER=django
+            - POSTGRES_PASSWORD=django
+        networks:
+            - test-network
+
+    restapi:
+        tty: true
+        build:
+            context: .
+            dockerfile: local-docker/Dockerfile
+        command: python manage.py runserver 0.0.0.0:8000
+        volumes:
+            - ./restapi:/django
+        ports:
+            - "8000:8000"
+            - "8001:8001"
+        environment:
+            DEBUG: "true"
+            ENABLE_METRICS: "false"
+            DATABASE_NAME: django
+            DATABASE_USER: django
+            DATABASE_PASSWORD: django
+            DATABASE_SERVICE_HOST: database
+            REDIS_SERVICE_HOST: redis://redis:6379
+        depends_on:
+            - redis
+            - database
+        networks:
+            - test-network
+
+volumes:
+    pgdata_scheduler:
+
+networks:
+    test-network:
+        external: true
