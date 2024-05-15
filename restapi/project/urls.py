@@ -30,7 +30,7 @@ urlpatterns = [
     path('readiness/', health),
 
     # Supported version1 routes
-    path('api/v1/profile/', include("apps.profile.v1.urls")),
+    # path('api/v1/profile/', include("apps.profile.v1.urls")),
 ]
 
 urlpatterns += static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)

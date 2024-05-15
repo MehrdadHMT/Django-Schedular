@@ -229,7 +229,8 @@ THIRD_PARTY_APPS = (
 )
 
 LOCAL_APPS = (
-    'apps.tasks.apps.MyAppConfig',
+    'apps.profile.apps.ProfileConfig',
+    'apps.tasks.apps.TasksConfig',
 )
 
 # See: https://docs.djangoproject.com/en/dev/ref/settings/#installed-apps
@@ -351,7 +352,7 @@ if DEBUG:
 WSGI_APPLICATION = 'wsgi.application'
 ########## END WSGI CONFIGURATION
 
-# AUTH_USER_MODEL = 'tasks.User'
+AUTH_USER_MODEL = 'profile.User'
 
 ALLOWED_HOSTS = [gethostname(), ] + list(set(gethostbyname_ex(gethostname())[2])) + os.getenv('ALLOWED_HOSTS', 'localhost;0.0.0.0;restapi').split(';')
 
